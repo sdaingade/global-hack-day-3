@@ -10,6 +10,7 @@ RUN apt-key add maprgpg.key
 RUN sudo apt-get -y update
 RUN apt-get -y install openjdk-7-jdk
 RUN apt-get -y --allow-unauthenticated install mapr-cldb mapr-fileserver mapr-zookeeper mapr-myriad-scheduler mapr-myriad-executor
-
+COPY libs/myriad-scheduler-0.0.1.jar  /opt/mapr/myriad/myriad-0.1/lib/
+COPY libs/myriad-commons-0.0.1.jar  /opt/mapr/myriad/myriad-0.1/lib/
 COPY init-script /usr/bin/init-script
 ENTRYPOINT /usr/bin/init-script
