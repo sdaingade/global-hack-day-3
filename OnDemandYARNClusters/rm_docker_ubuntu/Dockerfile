@@ -9,4 +9,4 @@ RUN wget http://package.mapr.com/releases/pub/maprgpg.key
 RUN apt-key add maprgpg.key
 RUN sudo apt-get -y update
 RUN apt-get install openjdk-7-jdk -y
-RUN apt-get install mapr-cldb mapr-fileserver mapr-zookeeper -y
+RUN apt-get install mapr-cldb mapr-fileserver mapr-zookeeper mapr-myriad-scheduler mapr-myriad-executor -y
