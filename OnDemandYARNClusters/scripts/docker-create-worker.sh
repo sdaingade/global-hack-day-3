@@ -18,7 +18,7 @@ sleep 5
 #TODO Take master node as arg
 consul join 10.10.30.52
 sleep 5
-docker -d --kv-store=consul:localhost:8500 --label=com.docker.network.driver.overlay.bind_interface=eth0 --label=com.docker.network.driver.overlay.neighbor_ip=10.10.30.52 &
+docker -d --kv-store=consul:localhost:8500 --label=com.docker.network.driver.overlay.bind_interface=eth0 --label=com.docker.network.driver.overlay.neighbor_ip=10.10.30.52 --insecure-registry=maprdocker.lab &
 
 for CLUSTER in "${CLUSTERS[@]}"
 do
