@@ -1,0 +1,33 @@
+#!/bin/bash
+# Author Swapnil Daingade, Sarjeet Singh
+# Script to run inside container to configure maprfs
+
+IP=$(ip addr show eth0 | grep -w inet | awk '{ print $2}' | cut -d "/" -f1)
+
+echo -e "${IP}\t$(hostname -f)\t$(hostname -s) " >> /etc/hosts
+
+mkdir -p /var/mapr
+fallocate -l 20G /var/mapr/docker.disk
+#dd if=/dev/zero of=/opt/mapr/docker.disk bs=1G count=5
+
+/opt/mapr/server/mruuidgen > /opt/mapr/hostid
+cat /opt/mapr/hostid > /opt/mapr/conf/hostid.$$
+
+sed -i 's/AddUdevRules(list/#AddUdevRules(list/' /opt/mapr/server/disksetup
+
+# Add user & group for mapr.
+addgroup --gid 500 mapr
+adduser --uid 500 --ingroup mapr --disabled-password --gecos "" mapr
+
+# TODO:work-around for zookeeper issue of not starting up.
+mkdir -p /opt/mapr/zkdata/version-2
+chown mapr.mapr /opt/mapr/zkdata/version-2
+
+/opt/mapr/server/configure.sh -C ${IP} -Z ${IP} -D /var/mapr/docker.disk -RM ${IP} --isvm
+
+echo "This container IP : ${IP}"
+
+while true
+do
+sleep 5
+done
