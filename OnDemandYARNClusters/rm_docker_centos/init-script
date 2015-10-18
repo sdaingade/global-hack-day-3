@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 # Author Swapnil Daingade, Sarjeet Singh
 # Script to run inside container to configure maprfs
 
