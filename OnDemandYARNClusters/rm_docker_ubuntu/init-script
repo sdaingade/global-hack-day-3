@@ -1,4 +1,6 @@
-#/bin/bash
+#!/bin/bash
+# Author Swapnil Daingade, Sarjeet Singh
+# Script to run inside container to configure maprfs
 
 IP=$(ip addr show eth0 | grep -w inet | awk '{ print $2}' | cut -d "/" -f1)
 
