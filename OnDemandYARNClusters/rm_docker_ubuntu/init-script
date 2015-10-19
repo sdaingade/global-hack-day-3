@@ -25,7 +25,22 @@ chown mapr.mapr /opt/mapr/zkdata/version-2
 
 /opt/mapr/server/configure.sh -C ${IP} -Z ${IP} -D /var/mapr/docker.disk -RM ${IP} --isvm
 
-echo "This container IP : ${IP}"
+# Symbolink for libmesos
+ln -s /usr/lib/libmesos.so /opt/mapr/hadoop/hadoop-2.7.0/lib/native/libmesos.so
+
+# Make changes to yarn-site.xml & myriad-config-default.yml
+tmpYarnSite="/opt/mapr/hadoop/hadoop-2.7.0/etc/hadoop/yarn-site.xml"
+tmpMyriadConf="/opt/mapr/myriad/myriad-0.1/conf/myriad-config-default.yml"
+
+# Disable recovery-enabled in yarn-site.xml
+matchedLine=`sed -n '10,$ { /yarn.resourcemanager.recovery.enabled/= }' $tmpYarnSite`
+nextLine=$((matchedLine+1))
+sed -i.bak -e "${nextLine}s/true/false/" $tmpYarnSite
+
+# Modify myriad-config-default.yml
+sed -i -e "s/mesosMaster: .*$/mesosMaster: zk:\/\/$ZK_ADDR_EXT\/mesos/" $tmpMyriadConf
+sed -i -e "s/zkServers: .*$/zkServers: $ZK_ADDR_EXT/" $tmpMyriadConf
+sed -i -e "s/haEnabled: .*$/haEnabled: false/" $tmpMyriadConf
 
 while true
 do

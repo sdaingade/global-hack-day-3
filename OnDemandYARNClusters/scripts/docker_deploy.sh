@@ -12,12 +12,16 @@ taskName=$1
 clusterId=$2
 #ARG3: Image to be deployed by docker.
 image=$3
+#ARG4: Zookeeper address (External)
+zkAddr=$4
+
+docker_env=(-e "ZK_ADDR_EXT=$zkAddr")
 
 # TODO Make loop back device to be exposed to container configurable
 device="/dev/loop0"
 # Create container with storage device attached. Attach container to overlay network corresponding to cluster
 #cid=`docker run --cap-add=ALL --device=$device:/dev/sdc -itd --publish-service=$taskName.$clusterId $image`
-cid=`docker run --privileged -itd --publish-service=$taskName.$clusterId $image`
+cid=`docker run --privileged -itd "${docker_env[@]}" --publish-service=$taskName.$clusterId $image`
 echo "Created container is $cid"
 
 # Configuring networking
