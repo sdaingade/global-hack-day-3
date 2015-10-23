@@ -23,6 +23,9 @@ adduser --uid 500 --ingroup mapr --disabled-password --gecos "" mapr
 mkdir -p /opt/mapr/zkdata/version-2
 chown mapr.mapr /opt/mapr/zkdata/version-2
 
+touch /opt/mapr/zkdata/zookeeper_server.pid
+chown mapr.mapr /opt/mapr/zkdata/zookeeper_server.pid
+
 /opt/mapr/server/configure.sh -C ${IP} -Z ${IP} -D /var/mapr/docker.disk -RM ${IP} --isvm
 
 # Symbolink for libmesos
