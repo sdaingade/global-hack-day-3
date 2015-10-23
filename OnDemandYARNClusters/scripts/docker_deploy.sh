@@ -29,6 +29,10 @@ do
          myriaduiPort=$1;;
   -NM_OCTET) shift
          nmOctet=$1;;
+  -FWK_NAME) shift
+         frameworkName=$1;
+  -RM_IP) shift
+         rmIp=$1;
   esac
   shift
 done
@@ -36,7 +40,11 @@ done
 
 # Pre container launch actions
 
-docker_env=(-e "ZK_ADDR_EXT=$zkAddrExt" -e "HOST_IP=$hostIp" -e "SCHEDULER_PORT=$schedulerPort")
+if [ "$containerType" = "RM" ]; then
+  docker_env=(-e "ZK_ADDR_EXT=$zkAddrExt" -e "HOST_IP=$hostIp" -e "SCHEDULER_PORT=$schedulerPort")
+else
+  docker_env=(-e "RM_IP"=$rmIp)
+fi
 
 # TODO Make loop back device to be exposed to container configurable
 device="/dev/loop0"
