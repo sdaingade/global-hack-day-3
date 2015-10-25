@@ -19,6 +19,7 @@ cat /opt/mapr/hostid > /opt/mapr/conf/hostid.$$
 sed -i 's/AddUdevRules(list/#AddUdevRules(list/' /opt/mapr/server/disksetup
 
 # Disable JHS configuration from configure-hadoop.sh
+sed -i 's/echo "services:" >>/echo "Disable JHS configuration" #echo "services:" >>/' /opt/mapr/server/configure-hadoop.sh
 sed -i 's/ConfigureMyriadJHSAdd /#ConfigureMyriadJHSAdd /' /opt/mapr/server/configure-hadoop.sh
 sed -i 's/ConfigureMyriadJHSInsert /echo "Disable JHS configuration" #ConfigureMyriadJHSInsert /' /opt/mapr/server/configure-hadoop.sh
 
