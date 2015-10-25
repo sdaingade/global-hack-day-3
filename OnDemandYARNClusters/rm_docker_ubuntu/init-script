@@ -4,6 +4,9 @@
 
 IP=$(ip addr show eth0 | grep -w inet | awk '{ print $2}' | cut -d "/" -f1)
 
+# Export container IP as env variable
+export CONTAINER_IP=$(ip addr show eth1 | grep -w inet | awk '{ print $2}' | cut -d "/" -f1)
+
 echo -e "${IP}\t$(hostname -f)\t$(hostname -s) " >> /etc/hosts
 
 mkdir -p /var/mapr

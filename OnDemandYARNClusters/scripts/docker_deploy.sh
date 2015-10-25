@@ -29,10 +29,8 @@ do
          myriaduiPort=$1;;
   -NM_OCTET) shift
          nmOctet=$1;;
-  -FWK_NAME) shift
-         frameworkName=$1;
   -RM_IP) shift
-         rmIp=$1;
+         rmIp=$1;;
   esac
   shift
 done
@@ -41,7 +39,7 @@ done
 # Pre container launch actions
 
 if [ "$containerType" = "RM" ]; then
-  docker_env=(-e "ZK_ADDR_EXT=$zkAddrExt" -e "HOST_IP=$hostIp" -e "SCHEDULER_PORT=$schedulerPort" -e "FWK_NAME=$frameworkName")
+  docker_env=(-e "ZK_ADDR_EXT=$zkAddrExt" -e "HOST_IP=$hostIp" -e "SCHEDULER_PORT=$schedulerPort" -e "FWK_NAME=$clusterId")
 else
   docker_env=(-e "RM_IP"=$rmIp)
 fi
