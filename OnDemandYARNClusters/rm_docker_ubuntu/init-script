@@ -30,7 +30,7 @@ chown mapr.mapr /opt/mapr/zkdata/version-2
 #touch /opt/mapr/zkdata/zookeeper_server.pid
 #chown mapr.mapr /opt/mapr/zkdata/zookeeper_server.pid
 
-/opt/mapr/server/configure.sh -C ${IP} -Z ${IP} -D /var/mapr/docker.disk -RM ${IP} --isvm
+/opt/mapr/server/configure.sh -C ${IP} -Z ${IP} -D /var/mapr/docker.disk -RM ${IP} -MF ${FWK_NAME} --isvm
 
 # Symbolink for libmesos
 ln -s /usr/lib/libmesos.so /opt/mapr/hadoop/hadoop-2.7.0/lib/native/libmesos.so

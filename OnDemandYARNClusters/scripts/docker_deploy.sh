@@ -41,7 +41,7 @@ done
 # Pre container launch actions
 
 if [ "$containerType" = "RM" ]; then
-  docker_env=(-e "ZK_ADDR_EXT=$zkAddrExt" -e "HOST_IP=$hostIp" -e "SCHEDULER_PORT=$schedulerPort")
+  docker_env=(-e "ZK_ADDR_EXT=$zkAddrExt" -e "HOST_IP=$hostIp" -e "SCHEDULER_PORT=$schedulerPort" -e "FWK_NAME=$frameworkName")
 else
   docker_env=(-e "RM_IP"=$rmIp)
 fi
