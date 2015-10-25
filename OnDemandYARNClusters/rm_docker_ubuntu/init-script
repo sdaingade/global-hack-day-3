@@ -15,6 +15,10 @@ cat /opt/mapr/hostid > /opt/mapr/conf/hostid.$$
 
 sed -i 's/AddUdevRules(list/#AddUdevRules(list/' /opt/mapr/server/disksetup
 
+# Disable JHS configuration from configure-hadoop.sh
+sed -i 's/ConfigureMyriadJHSAdd /#ConfigureMyriadJHSAdd /' /opt/mapr/server/configure-hadoop.sh
+sed -i 's/ConfigureMyriadJHSInsert /#ConfigureMyriadJHSInsert /' /opt/mapr/server/configure-hadoop.sh
+
 # Add user & group for mapr.
 addgroup --gid 500 mapr
 adduser --uid 500 --ingroup mapr --disabled-password --gecos "" mapr
