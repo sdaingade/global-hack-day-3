@@ -115,10 +115,12 @@ if [ "$containerType" = "RM" ]; then
   iptables -t nat -A DOCKER -p tcp -m tcp --dport $myriaduiPort -j DNAT --to-destination ${RM_IP}:8192
 fi
 
+# Ideally this should be both for RM and NM
+if [ "$containerType" = "NM" ]; then
 
-#TODO Check if Mesos task exits after this script has finished running.
-# If yes do something like this to keep script from terminating
-#while sleep 10;
-#do
-#  date;
-#done
+while [[ `docker inspect -f '{{.State.Status}}' $cid` == "running" ]];
+do
+  echo "Container $cid is running..."
+  sleep 5;
+done
+
