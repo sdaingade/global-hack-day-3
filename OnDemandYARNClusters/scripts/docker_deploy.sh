@@ -68,6 +68,7 @@ ln -s /proc/$pid/ns/net /var/run/netns/$pid
 ip addr show $clusterId
 
 #shorten length of container id
+originalCid=$cid
 cid=${cid:4:5}
 
 # Each cluster has its own bridge per host to connect to the underlay network
@@ -117,10 +118,10 @@ fi
 
 # Ideally this should be both for RM and NM
 if [ "$containerType" = "NM" ]; then
-
-while [[ `docker inspect -f '{{.State.Status}}' $cid` == "running" ]];
-do
-  echo "Container $cid is running..."
-  sleep 5;
-done
+  while [[ `docker inspect -f '{{.State.Status}}' $originalCid` == "running" ]];
+  do
+    echo "Container $originalCid is running..."
+    sleep 5;
+  done
+fi
 
