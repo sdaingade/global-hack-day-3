@@ -48,7 +48,7 @@ fi
 device="/dev/loop0"
 # Create container with storage device attached. Attach container to overlay network corresponding to cluster
 #cid=`docker run --cap-add=ALL --device=$device:/dev/sdc -itd --publish-service=$taskName.$clusterId $image`
-cid=`docker run --privileged -itd "${docker_env[@]}" --publish-service=${taskName//\./\-}.$clusterId $image`
+cid=`docker run --privileged -itd "${docker_env[@]}" -m 5120M --oom-kill-disable --publish-service=${taskName//\./\-}.$clusterId $image`
 echo "Created container is $cid"
 
 # Configuring networking
