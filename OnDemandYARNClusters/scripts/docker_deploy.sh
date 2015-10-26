@@ -48,7 +48,7 @@ fi
 device="/dev/loop0"
 # Create container with storage device attached. Attach container to overlay network corresponding to cluster
 #cid=`docker run --cap-add=ALL --device=$device:/dev/sdc -itd --publish-service=$taskName.$clusterId $image`
-cid=`docker run --privileged -itd "${docker_env[@]}" --publish-service=$taskName.$clusterId $image`
+cid=`docker run --privileged -itd "${docker_env[@]}" --publish-service=${taskName//\./\-}.$clusterId $image`
 echo "Created container is $cid"
 
 # Configuring networking
@@ -77,7 +77,7 @@ RM_IP=`ip addr show $clusterId | grep 'inet .* global' | awk '{print $2}' | sed 
 if [ "$containerType" = "RM" ]; then
   containerIp=`ip addr show $clusterId | grep 'inet .* global' | awk '{print $2}' | sed 's/1\/16/2/'`
 else
-  containerIp==`ip addr show $clusterId | grep 'inet .* global' | awk '{print $2}' | sed 's/1\/16/${nmOctet}/'` 
+  containerIp=`ip addr show $clusterId | grep 'inet .* global' | awk '{print $2}' | sed "s/1\/16/${nmOctet}/"` 
 fi
 
 # Create a veth pair 
