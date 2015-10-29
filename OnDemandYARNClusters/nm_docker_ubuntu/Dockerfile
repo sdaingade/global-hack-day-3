@@ -10,5 +10,7 @@ RUN apt-key add maprgpg.key
 RUN sudo apt-get -y update
 RUN apt-get -y install openjdk-7-jdk
 RUN apt-get -y --allow-unauthenticated install mapr-fileserver
+RUN sed -i 's!/proc/meminfo!/opt/mapr/conf/meminfofake!' /opt/mapr/server/initscripts-common.sh
+
 COPY init-script /usr/bin/init-script
 ENTRYPOINT /usr/bin/init-script

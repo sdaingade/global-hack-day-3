@@ -4,9 +4,6 @@
 
 IP=$(ip addr show eth0 | grep -w inet | awk '{ print $2}' | cut -d "/" -f1)
 
-# Export container IP as env variable
-export CONTAINER_IP=$(ip addr show eth1 | grep -w inet | awk '{ print $2}' | cut -d "/" -f1)
-
 echo -e "${IP}\t$(hostname -f)\t$(hostname -s) " >> /etc/hosts
 
 mkdir -p /var/mapr
@@ -15,6 +12,12 @@ fallocate -l 20G /var/mapr/docker.disk
 
 /opt/mapr/server/mruuidgen > /opt/mapr/hostid
 cat /opt/mapr/hostid > /opt/mapr/conf/hostid.$$
+
+# Limit container memory to 8GB for mfs
+cp /proc/meminfo /opt/mapr/conf/meminfofake
+sed -i "/^MemTotal/ s/^.*$/MemTotal:     8388608 kB/" /opt/mapr/conf/meminfofake
+sed -i "/^MemFree/ s/^.*$/MemFree:     8388592 kB/" /opt/mapr/conf/meminfofake
+sed -i "/^MemAvailable/ s/^.*$/MemAvailable:     8388592 kB/" /opt/mapr/conf/meminfofake
 
 sed -i 's/AddUdevRules(list/#AddUdevRules(list/' /opt/mapr/server/disksetup
 
